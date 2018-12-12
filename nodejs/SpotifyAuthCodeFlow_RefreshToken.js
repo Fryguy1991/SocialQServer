@@ -59,47 +59,44 @@ exports.spotifyAuth = app.get("/:code", function auth (req,res){
   // Simple check to determine which has been passed in.
 
   if (code.length > 134) {
-  console.log('Processing an authorization code\n');
+    console.log('Processing an authorization code\n');
 
     // Retrieve an access token and a refresh token
-    spotifyApi.authorizationCodeGrant(code)
-      .then(function(data) {
+    spotifyApi.authorizationCodeGrant(code).then(function(data) {
 
-        // If you need to log these, uncomment:
-        console.log('The refresh token is ' + data.body['refresh_token'] + '\n');
-         console.log('The access token is ' + data.body['access_token'] + '\n');
-         console.log('The token expires in ' + data.body['expires_in'] + '\n\n');
+      // If you need to log these, uncomment:
+      console.log('The refresh token is ' + data.body['refresh_token'] + '\n');
+      console.log('The access token is ' + data.body['access_token'] + '\n');
+      console.log('The token expires in ' + data.body['expires_in'] + '\n\n');
 
 
-        res.contentType('application/json');
-        res.send(JSON.stringify(data));
+      res.contentType('application/json');
+      res.send(JSON.stringify(data));
 
       }, function(err) {
         console.log('Authorization Code Grant Flow ERROR: ', err);
     });
   } else {
-  console.log('Processing a refresh token\n');
+    console.log('Processing a refresh token\n');
 
     spotifyApi.setRefreshToken(code);
-    spotifyApi.refreshAccessToken()
-      .then(function(refdata) {
+    spotifyApi.refreshAccessToken().then(function(refdata) {
 
-        // If you need to log these, uncomment:
-        console.log('New access token is ' + refdata.body['access_token'] + '\n');
-        console.log('The token expires in ' + refdata.body['expires_in'] + '\n');
+      // If you need to log these, uncomment:
+      console.log('New access token is ' + refdata.body['access_token'] + '\n');
+      console.log('The token expires in ' + refdata.body['expires_in'] + '\n');
 
-        // returns JSON values:
-        // "access_token": "NgA6ZcYI...ixn8bUQ",
-        // "token_type": "Bearer",
-        // "scope": "[requested_scope]..",
-        // "expires_in": "somedate"
+      // returns JSON values:
+      // "access_token": "NgA6ZcYI...ixn8bUQ",
+      // "token_type": "Bearer",
+      // "scope": "[requested_scope]..",
+      // "expires_in": "somedate"
 
-        res.contentType('application/json');
-        res.send(JSON.stringify(refdata));
+      res.contentType('application/json');
+      res.send(JSON.stringify(refdata));
 
       }, function(err) {
         console.log('Could not refresh the token!', err.message);
       });
   }
-
 });
