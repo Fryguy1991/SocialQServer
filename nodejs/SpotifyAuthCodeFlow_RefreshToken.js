@@ -23,6 +23,7 @@
 var app = require('express')();
 var SpotifyWebApi = require('spotify-web-api-node');
 var bodyParser = require('body-parser');
+var fs = require('fs')
 
 /*
 * MARK: - Invocation
@@ -41,7 +42,7 @@ exports.spotifyAuth = app.get("/:code", function auth (req,res){
   var code = req.params.code;
 //  var code = 'For testing purposes place authorization code here'
 //  var code = 'For testing purposes place retrieved refresh token here'
-  var fs = require('fs')
+
   // TODO: Should really encrypt/decrypt this value
   var content = fs.readFileSync('client.txt', 'utf8')
 
