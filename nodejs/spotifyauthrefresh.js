@@ -23,17 +23,27 @@
 var app = require('express')();
 var SpotifyWebApi = require('spotify-web-api-node');
 var bodyParser = require('body-parser');
-var fs = require('fs')
+var fs = require('fs');
+var http = require('http');
+var port = 9000;
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(port);
+
+console.log('Listening on port', port);
+
 
 /*
 * MARK: - Invocation
 * Using an HTTP Trigger, hitting your cloud endpoint, just
 * include ".../your_code" at the end of the url.
 *
-* Pass in EITHER your Authorization Code OR a refresh_tok.
+* Pass in EITHER your Authorization Code OR a refresh_token.
 *
 * This function extracts it, checks if it is a CODE or
-* an refresh token, then re-authenticates and sends back
+* a refresh token, then re-authenticates and sends back
 * new refresh & access tokens.
 */
 
